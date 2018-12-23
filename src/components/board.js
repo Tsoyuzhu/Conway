@@ -28,7 +28,7 @@ class Board extends React.Component {
         for (var i = 0; i < height; i++) {
             var cols = []
             for (var j = 0; j < width; j++) {
-                cols.push(<GameCell key={i+j} x={j} y={i} clickCell={this.alterCell}/>)
+                cols.push(<GameCell key={i+j} x={j} y={i} alive={this.state.grid[j][i]} clickCell={this.alterCell}/>)
             }
             table.push(<tr key={i}>{cols}</tr>)
         }
@@ -42,7 +42,7 @@ class Board extends React.Component {
         newGrid[x][y] = alive
         // Save it back
         this.setState({grid:newGrid})
-        
+
         // debugging
         for(var l=0; l<theme.boardWidth;l++) {
             for(var m=0;m<theme.boardHeight;m++) {
@@ -50,6 +50,8 @@ class Board extends React.Component {
             }
         }
     }
+
+    
 
     render() {
         return (
@@ -67,7 +69,8 @@ class GameCell extends React.Component {
             color: theme.cellDefault,
             hover: false,
             x: props.x,
-            y: props.y
+            y: props.y,
+            alive: props.alive
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleMouseEnter = this.handleMouseEnter.bind(this);
@@ -76,13 +79,13 @@ class GameCell extends React.Component {
 
     handleClick() {
         console.log("clicked");
-        if (this.state.color === theme.cellActive) {
-            this.setState({color: theme.cellDefault})
+        if (this.state.alive) {
             // Mark cell as dead
+            this.setState({alive: false})
             this.props.clickCell(this.state.x,this.state.y,false)
         } else {
-            this.setState({color: theme.cellActive})
             // Mark cell as alive
+            this.setState({alive: true})
             this.props.clickCell(this.state.x,this.state.y,true)
         }
     }
@@ -96,8 +99,17 @@ class GameCell extends React.Component {
     }
 
     render() {
-        return <Cell onClick={this.handleClick} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} 
-            style={ this.state.hover ? {backgroundColor: theme.cellSelected}:{backgroundColor: this.state.color} }/>
+        var style
+        if (this.state.alive) {
+            style = {backgroundColor: theme.cellActive}
+        } else {
+            if (this.state.hover) {
+                style = {backgroundColor: theme.cellSelected}
+            } else {
+                style = {backgroundColor: theme.cellDefault}
+            }
+        }
+        return <Cell onClick={this.handleClick} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} style={style}/>
     }
    
 }
@@ -121,6 +133,6 @@ const Cell = styled.td`
 
 const BoardWrapper = styled.table`
     border: 2px solid black;
-    border-radius: 4px;
+    border-radius: 10px;
     border-collapse: collapse;
 `
