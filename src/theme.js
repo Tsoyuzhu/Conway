@@ -5,7 +5,7 @@ export const cellActive = '#ffdb4f';
 export const cellSelected = '#fffaed';
 export const cellBorder = '#10213a';
 export const boardHeight = 40;
-export const boardWidth = 60;
+export const boardWidth = 90;
 export const boardEdgeSize = 5;
 export const boardDeadZone = 3;
 
