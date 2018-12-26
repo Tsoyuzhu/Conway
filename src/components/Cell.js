@@ -1,15 +1,15 @@
 import React from 'react'
+import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import * as theme from '../theme'
 
 const GameCell = (props) => {
 	const handleClick = () => props.clickCell(!props.alive)
-	const colour = this.props.alive
+	const colour = props.alive
 	? theme.cellActive
-	: this.state.hover
-		? theme.cellSelected
-		: theme.cellDefault
+	: theme.cellDefault
 
-	return <Cell onClick={this.handleClick} colour={colour}/>
+	return <Cell onClick={handleClick} colour={colour}/>
 }
 
 GameCell.propTypes = {
@@ -21,11 +21,10 @@ export default React.memo(GameCell)
 const Cell = styled.td`
 	width: 10px;
 	height: 10px;
-	border: 1px solid ${theme.cellBorder};
-	border-radius: 1.1px;
+	border: 2px solid ${theme.cellBorder};
 	background-color: ${props => props.colour};
 	&:hover {
-		background-color: ${theme.cellActive};
+		background-color: ${theme.cellSelected};
 		cursor: pointer;
 	}
 `
