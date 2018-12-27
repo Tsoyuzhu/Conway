@@ -1,22 +1,28 @@
 import React from 'react'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
 import * as theme from '../theme'
+import { connect } from 'react-redux'
+import boardState from '../redux/board'
 
-const GameCell = (props) => {
-	const handleClick = () => props.clickCell(!props.alive)
-	const colour = props.alive
+const GameCell = ({ x, y, alive, alterCell }) => {
+	const handleClick = () => alterCell({ x, y, alive: !alive })
+	const colour = alive
 	? theme.cellActive
 	: theme.cellDefault
 
 	return <Cell onClick={handleClick} colour={colour}/>
 }
 
-GameCell.propTypes = {
-	clickCell: PropTypes.func
+const mapStateToProps = (state, ownProps) => {
+	const { x, y } = ownProps;
+	return {
+		alive: state.boardState.board[y][x]
+	}
 }
 
-export default React.memo(GameCell)
+export default connect(mapStateToProps, {
+	alterCell: boardState.actions.alterCell,
+})(GameCell)
 
 const Cell = styled.td`
 	width: 10px;
