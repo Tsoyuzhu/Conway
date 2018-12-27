@@ -12,10 +12,10 @@ class App extends Component {
         <Container>
           <Board/>
           <Row>
-            <Col md={4} style={{paddingRight: '2rem'}}>
+            <Col md={4} style={{padding: '0 2rem'}}>
               <PanelHeading>Conway's Game of Life</PanelHeading>
               <PanelDesc> 
-                The rules of Life are simple. <br/>
+                Conway's rules of Life are simple. <br/>
                 Each square contains a cell. <br/>
                 At any point in time, a cell is either dead or alive. <br/><br/>
                 At each generation: <br/>
@@ -33,10 +33,10 @@ class App extends Component {
                 Create patterns with cells then click the play <i className ="fas fa-play" style={{display: 'inline', opacity: '0.5'}}/> button to see how your system behaves.<br/><br/>
                 You can change the state of cells while the simulation is active but take care as it may 
                 not result in the behaviour you expect!<br/><br/>
-                The reset button will restore the system to its default state by killing all living cells. 
+                The Reset button will restore the system to its default state by killing all living cells. 
               </PanelDesc>
             </Col>
-            <Col md={4} style={{paddingLeft: '2rem'}}>
+            <Col md={4} style={{padding: '0 2rem'}}>
               <PanelHeading>Getting Started</PanelHeading>
               <PanelDesc>
                 The combinations and patterns of cells are near endless.<br/><br/>
@@ -47,13 +47,13 @@ class App extends Component {
                 <Row>
                   <Col sm={6}>
                     <Row>
-                      <Col sm={6} style={{padding: 'none'}}>Glider</Col>
+                      <Col sm={6} style={{padding: 'none'}}><PanelDesc>Glider</PanelDesc></Col>
                       <Col sm={6}> <LifeFormImg src='images/Glider.png'/> </Col>
                     </Row>
                   </Col>
                   <Col sm={6}>
                     <Row>
-                      <Col sm={7}>R-Pentomino</Col>
+                      <Col sm={7}><PanelDesc>R-Pentomino</PanelDesc></Col>
                       <Col sm={5}> <LifeFormImg src='images/Rpentomino.png'/> </Col>
                     </Row>
                   </Col>
@@ -78,6 +78,9 @@ class App extends Component {
 export default App;
 
 const PanelHeading = styled.h2`
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid ${props => props.color};
+  border-radius: 2px;
   ${theme.mainTypeBold};
   text-align: justify;
   font-size: 1.8rem;
@@ -85,7 +88,7 @@ const PanelHeading = styled.h2`
 `
 
 const PanelDesc = styled.p`
-  font-family: Roboto, sans-serif;
+  font-family: monospace, sans-serif;
   text-align: justify;
   font-weight: 400;
   font-size: 0.75rem;

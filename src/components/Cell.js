@@ -16,7 +16,8 @@ const GameCell = ({ x, y, alive, alterCell }) => {
 const mapStateToProps = (state, ownProps) => {
 	const { x, y } = ownProps;
 	return {
-		alive: state.boardState.board[y][x]
+		alive: state.boardState.board[y][x],
+		running: state.boardState.running
 	}
 }
 
@@ -25,12 +26,11 @@ export default connect(mapStateToProps, {
 })(GameCell)
 
 const Cell = styled.td`
-	width: 10px;
-	height: 10px;
+	width: ${theme.cellSize};
+	height: ${theme.cellSize};
 	border: 2px solid ${theme.cellBorder};
 	background-color: ${props => props.colour};
 	&:hover {
 		background-color: ${theme.cellSelected};
-		cursor: pointer;
 	}
 `

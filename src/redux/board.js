@@ -17,10 +17,16 @@ const stopTimer = (state) => {
 
 const evolve = (state) => {
     const newBoard = state.board.map((cols,y) => (
-        // Live or die only needs the cells neighbours, not the whole board. Potential optimisation
+        // Live or die only needs the cell's neighbours, not the whole board. Potential optimisation
         cols.map((_,x) => liveOrDie(state.board,x,y))
 	))
-	state.board = newBoard
+    state.board = newBoard
+    state.generation += 1
+}
+
+const resetBoard = (state) => {
+    state.board = createBoard(theme.boardWidth, theme.boardHeight)
+    state.generation = 0
 }
 
 const boardState = createSlice({
@@ -28,12 +34,14 @@ const boardState = createSlice({
     initialState: {
         board: createBoard(theme.boardWidth, theme.boardHeight),
         running: undefined,
+        generation: 0,
 	},
     reducers: {
       alterCell,
       evolve,
       startTimer,
       stopTimer,
+      resetBoard,
     }
 })
 

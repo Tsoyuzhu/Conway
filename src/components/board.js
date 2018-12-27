@@ -2,8 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import GameCell from './Cell'
 import * as theme from '../theme'
+import { Row, Col } from 'react-grid-system'
 import { connect } from 'react-redux'
-import { toggleTimer } from '../redux/operations'
+import { toggleTimer, reset } from '../redux/operations'
 
 class Board extends React.Component {
 	
@@ -30,37 +31,55 @@ class Board extends React.Component {
 						)}
 					</tbody>
 				</BoardWrapper>
-				<RoundBtn onClick={() => this.props.toggle()}> 
-					{/* {
-					this.state.running 
-					? <i className ="fas fa-pause" />
-					: <i className ="fas fa-play"/>
-					}  */}
-				</RoundBtn>
-				{/* <RoundBtn onClick={this.reset} width='6rem'> Reset </RoundBtn>  */}
+					<Row>
+						<Col md={2}>
+							<Generation>Generation: {this.props.generation} </Generation>
+						</Col>
+						<Col md={10}>
+							<Controls>
+								<RoundBtn onClick={() => this.props.toggle()}> 
+									{
+									this.props.running
+									? <i className ="fas fa-pause" />
+									: <i className ="fas fa-play"/>
+									} 
+								</RoundBtn>
+								<RoundBtn onClick={() => this.props.reset()} width='6rem'> Reset </RoundBtn>
+							</Controls>
+						</Col>
+					</Row>
+					
 			</Simbox>
 		)
 	}
 }
 
-export default connect(null, {
-	toggle: toggleTimer,
+const mapStateToProps = (state) => {
+	return {
+		running: state.boardState.running,
+		generation: state.boardState.generation
+	}
+}
+
+export default connect(mapStateToProps, {
+	toggle: toggleTimer, 
+	reset: reset,
 })(Board)
 
 const BoardWrapper = styled.table`
-    // border: 3px solid black;
-    // border-radius: 10px;
+    cursor: pointer;
     border-collapse: collapse;
 `
 const RoundBtn = styled.button`
 	margin: 0.75rem 3px;
     font-family: monospace;
-	border: 2px solid ${theme.cellDefault};
-	border-radius: 3px;
-	height: 2rem;
-	width: ${props => props.width || '3rem' }
+	border: 0px solid ${theme.cellDefault};
+	border-radius: 20px;
+	height: 3rem;
+	width: ${props => props.width || '4rem' }
     background-color: white;
-    color: black;
+	color: black;
+	opacity: 0.75;
     &:focus {
         outline: none;
     }
@@ -75,4 +94,18 @@ const Simbox = styled.div`
 	background-color: #efefef;
 	border-radius: 8px;
 	padding: 1rem;
+`
+
+const Controls = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end
+`
+
+const Generation = styled.p`
+	margin: 0.75rem 0;
+	font-family: monospace;
+	float: left;
+	opacity: 0.9;
+	font-size: 1rem;
 `
